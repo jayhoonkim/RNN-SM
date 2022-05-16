@@ -1,0 +1,47 @@
+data:
+  name: iot_word_cfg
+  src:
+    vocab_size: 28
+    max_len: 3
+  tar:
+    vocab_size: 31
+    max_len: 5
+  train_val_test_split_ratio:
+  - 0.8
+  - 0.1
+  - 0.1
+  train_val_shuffle: true
+model:
+  name: Stacked_RNN
+  enc:
+    embed_size: 256
+    rnn:
+      units: 1024
+  dec:
+    embed_size: 256
+    rnn:
+      units: 1024
+opt:
+  optimizer:
+    name: RectifiedAdam
+    learning_rate: 0.001
+    other_kwargs: {}
+  lr_scheduler: null
+train:
+  train_batch_size: 128
+  val_batch_size: 32
+  test_batch_size: 32
+  max_epochs: 300
+  distribute_strategy: MirroredStrategy
+  teacher_forcing_ratio: 0.5
+log:
+  run_name: 2022-05-11T16:04:47-Stacked_RNN_radam-Stacked_RNN
+  checkpoint_filepath: ./result/2022-05-11T16:04:47-Stacked_RNN_radam-Stacked_RNN/model
+  tensorboard_log_dir: ./result/2022-05-11T16:04:47-Stacked_RNN_radam-Stacked_RNN
+  callbacks:
+    TensorBoard:
+      log_dir: ./result/2022-05-11T16:04:47-Stacked_RNN_radam-Stacked_RNN
+      update_freq: 50
+    EarlyStopping:
+      patience: 30
+      verbose: true
